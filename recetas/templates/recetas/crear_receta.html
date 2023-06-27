@@ -1,0 +1,77 @@
+{% extends "recetas/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="content-section">
+    <form method="post" id="recipe-form">
+        <legend class="border-bottom mb-4">Crear Receta</legend>
+
+        {% csrf_token %}
+        {{ form|crispy }}
+        {{ formset.management_form }}
+        <div id="ingredient-form-list">
+            {% for ingredient_form in formset %}
+            <div class="ingredient-form mt-5 mb-5">
+                {{ ingredient_form|crispy }}
+                {% if not forloop.first %}
+                <button type="button" class="delete-ingredient btn btn-danger">Delete</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-3 mt-5">
+                <button class="btn btn-primary" type="button" id="add-ingredient">Añadir Ingrediente</button>
+            </div>
+            <div class="col-3 mt-5">
+                <button class="btn btn-primary" type="submit">Registrar Receta</button>
+            </div>
+            <div class="col-3 mt-5">
+                <button class="btn btn-secondary" id="create-another" name="create_another" type="submit">Registrar y crear otra</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+{% endblock content%}
+
+{% block js %}
+
+<script>
+    $('#add-ingredient').click(function () {
+        var formIdx = $('#id_ingredientes-TOTAL_FORMS').val();
+        var newForm = $('#ingredient-form-list .ingredient-form:first').clone();
+        newForm.append('<button type="button" class="delete-ingredient btn btn-danger">Delete</button>');  // add the delete button
+        $('#ingredient-form-list').append(newForm);
+        $('#ingredient-form-list .ingredient-form:last').html($('#ingredient-form-list .ingredient-form:last').html().replace(/-0-/g, '-' + formIdx + '-'));
+        $('#id_ingredientes-TOTAL_FORMS').val(parseInt(formIdx) + 1);
+    });
+
+    $(document).on('click', '.delete-ingredient', function () {
+    var form = $(this).closest('.ingredient-form');
+    form.hide(); // Hide the form instead of removing it
+
+    var forms = $('.ingredient-form:visible'); // Get only the visible forms
+    $('#id_ingredientes-TOTAL_FORMS').val(forms.length); // Update the total number of visible forms
+
+    var formIdx = 0;
+    forms.each(function (index) {
+        var currentForm = $(this);
+        currentForm.find('input, select, textarea').each(function () {
+            var input = $(this);
+            // Update the name and ID attributes of the visible form fields
+            var oldName = input.attr('name');
+            var newName = oldName.replace(/-\d+-/g, '-' + formIdx + '-');
+            input.attr('name', newName);
+            input.attr('id', newName);
+        });
+        formIdx++;
+    });
+});
+;
+</script>
+
+{% endblock %}

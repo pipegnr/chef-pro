@@ -1,0 +1,72 @@
+{% extends "recetas/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="content-section">
+    <form method="post" id="recipe-form">
+        <legend class="border-bottom mb-4">Crear Orden de Compra</legend>
+
+        {% csrf_token %}
+        {{ form|crispy }}
+        {{ formset.management_form }}
+        <div id="materia_prima-form-list">
+            {% for materia_prima_form in formset %}
+            <div class="materia_prima-form mt-5 mb-5">
+                {{ materia_prima_form|crispy }}
+                {% if forloop.first %}
+                <button style="display: none;" type="button" class="delete-materia_prima btn btn-danger">Eliminar</button>
+                {% else %}
+                <button type="button" class="delete-materia_prima btn btn-danger">Eliminar</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-3 mt-5">
+                <button class="btn btn-primary" type="button" id="add-materia_prima">Añadir Materia Prima</button>
+            </div>
+            <div class="col-3 mt-5">
+                <button class="btn btn-primary" type="submit">Registrar OC</button>
+            </div>
+            <div class="col-3 mt-5">
+                <button class="btn btn-secondary" id="create-another" name="create_another" type="submit">Registrar OC y crear otra</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+{% endblock content%}
+
+{% block js%}
+<script>
+
+$(document).ready(function() {
+  // "Añadir Materia Prima" button click event
+  $('#add-materia_prima').click(function() {
+    // Clone the first materia_prima form and update its attributes
+    var newForm = $('.materia_prima-form:first').clone();
+    newForm.find('input, select').val(''); // Clear input values in the cloned form
+    newForm.find('.delete-materia_prima').show(); // Show the delete button in the cloned form
+
+    // Update the form's attributes and add it to the end of the form list
+    var formCount = $('.materia_prima-form').length;
+    newForm.attr('id', 'materia_prima-form-' + formCount);
+    newForm.appendTo('#materia_prima-form-list');
+  });
+
+  // "Eliminar" button click event
+  $(document).on('click', '.delete-materia_prima', function() {
+    var form = $(this).closest('.materia_prima-form');
+    form.find('input, select').prop('disabled', true); // Disable form fields
+    form.hide(); // Hide the form
+  });
+});
+
+
+
+</script>
+
+{% endblock js%}

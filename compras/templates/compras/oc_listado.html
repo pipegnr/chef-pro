@@ -1,0 +1,36 @@
+{% extends "recetas/base.html" %}
+
+{% block content %}
+<p class="h2 mb-5">Listado de OC</p>
+<table id="tabla_oc" class="datatable table table-striped table-success">
+  <thead>
+    <tr>
+      <th scope="col">OC</th>
+      <th scope="col">Proveedor</th>
+      <th scope="col" class="text-center">Fecha</th>
+      <th scope="col" class="text-center">Estado OC</th>
+      <th scope="col" class="text-center">Estado Recepción</th>
+      <th scope="col" class="text-end">Precio Neto</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for oc in ordenes_de_compra_list %}
+    <tr>
+      <th scope="row"><a class="link-success" href="{% url 'compras-oc_detalle' oc.orden.nro_oc %}">{{ oc.orden.nro_oc}}</a></th>
+      <td>{{ oc.orden.proveedor }}</td>
+      <td class="text-center">{{ oc.orden.fecha_creacion|date:"d M, Y" }}</td>
+      <td class="text-center">{{ oc.orden.estado_oc }}</td>
+      <td class="text-center">{{ oc.orden.estado_recepcion }}</td>
+      <td class="text-end">{{ oc.precio_neto_oc }}</td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+<!-- DataTables Script -->
+
+{% endblock content%}

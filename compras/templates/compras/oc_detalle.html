@@ -1,0 +1,130 @@
+{% extends "recetas/base.html" %}
+
+{% block content %}
+<p class="h2 mb-5">Orden de Compra Nº {{ object.nro_oc }}</p>
+<table class="table table-dark table-responsive mb-5 text-center">
+  <thead>
+    <tr>
+      <th scope="col">OC</th>
+      <th scope="col">Proveedor</th>
+      <th scope="col">RUT</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Condición de Pago</th>
+      <th scope="col">Estado OC</th>
+      <th scope="col">Estado Recepción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-secondary text-center">
+      <th scope="row">{{ object.nro_oc }}</th>
+      <td>{{ object.proveedor }}</td>
+      <td>{{ object.proveedor.rut }}</td>
+      <td>{{ object.fecha_creacion|date:"d M, Y" }}</td>
+      <td>{{ object.proveedor.condicion_de_pago }} días</td>
+      <td>{{ object.estado_oc }}</td>
+      <td>{{ object.estado_recepcion }}</td>
+
+    </tr>
+  </tbody>
+</table>
+
+
+
+<table class="table table-responsive mb-5 text-center">
+  <thead>
+    <tr class="table-dark">
+      <th>#</th>
+      <th class="text-start">Materia Prima</th>
+      <th class="text-end">Cantidad</th>
+      <th class="text-end">U/M</th>
+      <th class="text-end">Precio Unitario Neto</th>
+      <th class="text-end">Precio Total Neto</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for mp_oc in materias_primas %}
+    <tr class="table-info">
+      <td>{{ forloop.counter }}</td>
+      <td class="text-start">{{ mp_oc.materia_prima.descripcion }}</td>
+      <td class="text-end">{{ mp_oc.cantidad|floatformat:"-2" }}</td>
+      <td class="text-end">{{ mp_oc.materia_prima.unidad_de_medida }}</td>
+      <td class="text-end">{{ mp_oc.precio_unitario_neto|floatformat:0 }}</td>
+      <td class="fw-bold text-end">{{ mp_oc.precio_neto_linea|floatformat:0 }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="table">
+      <td></td>
+    </tr>
+    <tr class="table-secondary fw-bold">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-end">Total neto</td>
+      <td class="text-end">{{ object.precio_neto_oc|floatformat:0 }}</td>
+    </tr>
+    <tr class="table-secondary fw-bold">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-end">IVA</td>
+      <td class="text-end">{{ iva|floatformat:0}}</td>
+    </tr>
+    <tr class="table-secondary fw-bold">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-end">Total Bruto</td>
+      <td class="text-end">{{ total_bruto|floatformat:0}}</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<hr class=" mt-5 border border-dark border-3 opacity-50">
+
+<p class="h2 mb-5">Panel de Recepciones</p>
+
+
+<form method="post" action="{% url 'registro_recepciones' pk=object.pk %}">
+  {% csrf_token %}
+  <div class="table-responsive">
+    <table class="table table-responsive mb-5 text-center">
+      <thead>
+        <tr class="table-dark">
+          <th>#</th>
+          <th class="text-start">Materia Prima</th>
+          <th class="text-end">Cantidad</th>
+          <th class="text-end">U/M</th>
+          <th class="text-end">Pendiente Recepción</th>
+          <th class="text-end">Recepcionar</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <!-- Acá si bien parece ser materias_primas del M2M field, se enlaze directamente a Mp_Oc, por lo que
+        Se itera en las líneas de ese objeto de Mp_Oc, de una OC especifica con todas sus lineas y cantidads -->
+        {% for materia_prima in materias_primas %}
+        <tr class="table-info">
+          <!-- <td>{{ forloop.counter }}</td> -->
+          <td class="text-start">{{ materia_prima.pk }}</td>          
+          <td class="text-start">{{ materia_prima.materia_prima.descripcion }}</td>
+          <td class="text-end">{{ materia_prima.cantidad|floatformat:"-2" }}</td>
+          <td class="text-end">{{ materia_prima.materia_prima.unidad_de_medida }}</td>
+          <td class="text-end">{{ inventario.2 }}</td>
+          <td class="text-end">
+            <input type="number" name="cantidad_recepcion_{{ materia_prima.pk }}" value="{{ materia_prima.cantidad_recepcion }}">
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <button type="submit" class="btn btn-primary">Recepcionar</button>
+</form>
+
+    {% endblock content%}

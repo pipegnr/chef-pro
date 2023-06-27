@@ -1,0 +1,39 @@
+{% extends "recetas/base.html" %}
+
+{% block content %}
+<p class="h2 mb-5">Listado de Materias Primas</p>
+<table class="datatable table table-striped table-success">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Descripcion</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Sub-categoria</th>
+        <th scope="col">Merma</th>
+        <th scope="col">Info. Nutricional</th>
+        <th scope="col">Stock</th>
+        <th scope="col">U.M.</th>
+      </tr>
+    </thead>
+    <tbody>
+        
+
+{% for mp in materias_primas %}
+      <tr>
+        <td scope="col">{{ mp.pk }}</td>
+        <th scope="row"><a class="link-success" href="{% url 'recetas-mp_detalle' mp.id %}">{{ mp.descripcion }}</a></th>
+        <td>{{ mp.categoria }}</td>
+        <td>{{ mp.subcategoria }}</td>
+        <td>{{ mp.merma }}</td>
+        <td>{{ mp.tiene_ficha_tecnica }}</td>
+        <td>{{ mp.inventario }}</td>
+        <td>{{ mp.unidad_de_medida }}</td>
+      </tr>
+{% endfor %}
+
+    </tbody>
+  </table>
+
+
+
+{% endblock content%}

@@ -1,0 +1,21 @@
+{% extends "recetas/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+    <form action="#" method="post">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Crear Materia Prima</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Registrar</button>
+        </div>
+        <div class="col-3 mt-5">
+            <button class="btn btn-secondary" id="create-another" name="create_another" type="submit">Registrar y crear otro</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock content%}

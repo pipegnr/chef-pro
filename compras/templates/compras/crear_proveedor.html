@@ -1,0 +1,28 @@
+{% extends "recetas/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="content-section">
+    <form method="post" id="recipe-form">
+        <legend class="border-bottom mb-4">Crear Proveedor</legend>
+
+        {% csrf_token %}
+        {{ form|crispy }}
+        {{ formset.management_form }}
+
+        <div class="row">
+            <div class="col-3 mt-5">
+                <button class="btn btn-primary" type="submit">Registrar</button>
+            </div>
+            <div class="col-3 mt-5">
+                <button class="btn btn-secondary" id="create-another" name="create_another" type="submit">Registrar y crear otro</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+{% endblock content %}
+

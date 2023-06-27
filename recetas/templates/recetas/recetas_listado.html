@@ -1,0 +1,34 @@
+{% extends "recetas/base.html" %}
+
+{% block content %}
+
+<table class="datatable table table-striped table-success">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Producto</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Costo Neto</th>
+        <th scope="col">Stock</th>
+        <th scope="col">Ficha Técnica</th>
+      </tr>
+    </thead>
+    <tbody>
+        
+{% for receta in recetas %}
+      <tr>
+        <td>{{ receta.pk }}</td>
+        <th scope="row"><a class="link-success" href="{% url 'recetas-receta_detalle' receta.id %}">{{ receta.nombre_receta }}</a></th>
+        <td>{{ receta.categoria }}</td>
+        <td>tbd</td>
+        <td>tbd</td>
+        <td>{{ receta.all_tiene_ficha_tecnica }}</td>
+      </tr>
+{% endfor %}
+
+    </tbody>
+  </table>
+
+
+
+{% endblock content%}

@@ -1,0 +1,145 @@
+{% extends "recetas/base.html" %}
+
+{% block content %}
+<p class="h2 mb-5">Detalle: {{ object.nombre_receta }}</p>
+
+<table class="table table-dark table-responsive mb-5">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Descripción</th>
+      <th scope="col">Categoría</th>
+      <th scope="col">Costo Neto</th>
+      <th scope="col">Inventario</th>
+      <th scope="col">Ficha Técnica</th>
+      <th scope="col">Merma</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-info">
+      <td>{{ object.pk }}</td>
+      <th scope="row">{{ object.nombre_receta }}</th>
+      <td>{{ object.categoria }}</td>
+      <td>tbd</td>
+      <td>{{ object.inventario }}</td>
+      <td> {{object.all_tiene_ficha_tecnica }}</td>
+      <td>{{ object.merma }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+    <table class="table table-success table-responsive w-auto">
+      <tbody>
+        <tr class="table-dark">
+          <th>-</th>
+          <th>Total</th>
+          {% for ingrediente in object.ingredientes.all %}
+          <th>{{ ingrediente.descripcion }}</th>
+          {% endfor %}
+        </tr>
+
+        <tr>
+          <th>Cantidad</th>
+          <td class="fw-bold text-center">-</td>
+          {% for ingredientex in receta.gramajes_set.all %}
+          <td class="text-center">{{ ingredientex.cantidad }}</td>
+          {% endfor %}
+        </tr>        <tr>
+          <th>U. de Medida</th>
+          <td class="fw-bold text-center">-</td>
+          {% for ingrediente in object.ingredientes.all %}
+          <td class="text-center">{{ ingrediente.unidad_de_medida }}</td>
+          {% endfor %}
+        </tr>
+
+
+
+        <tr>
+          <th>Calorías</th>
+          <td class="fw-bold text-center">{{ calorias_totales }}</td>
+          {% for ingrediente in object.ingredientes.all %}
+          <td class="text-center">{{ ingrediente.calorias }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          <th>Proteina</th>
+          <td class="fw-bold text-center">{{ proteina_totales }}</td>
+          {% for ingrediente in object.ingredientes.all %}
+          <td class="text-center">{{ ingrediente.proteina }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+        <th>Grasa Total</th>
+        <td class="fw-bold text-center">{{ grasa_total_totales }}</td>
+        {% for ingrediente in object.ingredientes.all %}
+        <td class="text-center">{{ ingrediente.grasa_total }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <th>Grasas Saturadas</th>
+        <td class="fw-bold text-center">{{ grasa_saturada_totales }}</td>
+        {% for ingrediente in object.ingredientes.all %}
+        <td class="text-center">{{ ingrediente.grasa_saturada }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <th>Grasas Monosaturadas</th>
+        <td class="fw-bold text-center">{{ grasa_monosaturada_totales }}</td>
+        {% for ingrediente in object.ingredientes.all %}
+        <td class="text-center">{{ ingrediente.grasa_monosaturada }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <th>Grasas Poliinsaturadas</th>
+        <td class="fw-bold text-center">{{ grasa_poliinsaturada_totales }}</td>
+        {% for ingrediente in object.ingredientes.all %}
+        <td class="text-center">{{ ingrediente.grasa_poliinsaturada }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <th>Grasas Trans</th>
+        <td class="fw-bold text-center">{{ grasa_trans_totales }}</td>
+        {% for ingrediente in object.ingredientes.all %}
+        <td class="text-center">{{ ingrediente.grasa_trans }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <th>Colesterol</th>
+        <td class="fw-bold text-center">{{ colesterol_totales }}</td>
+        {% for ingrediente in object.ingredientes.all %}
+        <td class="text-center">{{ ingrediente.colesterol }}</td>
+        {% endfor %}
+      </tr>
+        <tr>
+          <th>Carbohidratos</th>
+          <td class="fw-bold text-center">{{ carbohidratos_totales }}</td>
+          {% for ingrediente in object.ingredientes.all %}
+          <td class="text-center">{{ ingrediente.carbohidratos }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          <th>Azúcares</th>
+          <td class="fw-bold text-center">{{ azucares_totales }}</td>
+          {% for ingrediente in object.ingredientes.all %}
+          <td class="text-center">{{ ingrediente.azucares }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          <th>Fibras</th>
+          <td class="fw-bold text-center">{{ fibras_totales }}</td>
+          {% for ingrediente in object.ingredientes.all %}
+          <td class="text-center">{{ ingrediente.fibras }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          <th>Sodio</th>
+          <td class="fw-bold text-center">{{ sodio_totales }}</td>
+          {% for ingrediente in object.ingredientes.all %}
+          <td class="text-center">{{ ingrediente.sodio }}</td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+
+{% endblock content%}

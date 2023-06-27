@@ -1,0 +1,2 @@
+cd onedrive/proyectos_ti/chef_pro
+source environments/gastronomia_env/bin/activate

@@ -1,0 +1,27 @@
+
+{% extends "recetas/base_nouser.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="content-post">
+
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Ingresa a tu cuenta</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info mb-3" type="submit">Ingresar</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                No tienes cuenta aun? <a class="ml-2" href="{% url 'register' %}">Crear Cuenta</a>
+            </small>
+
+        </div>
+    </div>
+{% endblock content %}

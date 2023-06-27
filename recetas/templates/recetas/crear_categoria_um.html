@@ -1,0 +1,47 @@
+
+{% extends "recetas/base.html" %}
+
+{% block content %}
+
+    <div class="mb-3 row">
+        <p class="d-flex justify-content-center fs-3 fw-bold">Agregar Categoría</p>
+        <form method="POST">
+            <label for="exampleFormControlInput1" class="form-label">Nombre nueva categoría:</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            <button class="btn btn-primary mt-3" type="submit">Agregar</button>
+        </form>
+        <h6 class="mt-5">Las categorías existentes son:</h6>
+
+    </div>
+
+    <div class="mb-5 row">
+        <ul class="list-group">
+        {% for categoria in categorias %}
+        <li class="list-group-item list-group-item-secondary">{{ categoria.nombre_categoria }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+<hr class="border-5">
+    <div class="mb-3 mt-5 row">
+        <p class="d-flex justify-content-center fs-3 fw-bold ">Agregar Unidad de Medida</p>
+        <form method="POST">
+            <label for="exampleFormControlInput1" class="form-label">Nombre nueva unidad de medida:</label>
+            <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="name@example.com">
+            <button class="btn btn-primary mt-3" type="submit">Agregar</button>
+        </form>
+        <h6 class="mt-5">Las unidades de medida existentes son:</h6>
+
+    </div>
+
+    <div class="mb-5 row">
+        <ul class="list-group">
+        {% for unidad_de_medida in unidades_de_medida %}
+        <li class="list-group-item  list-group-item-secondary">{{ unidad_de_medida.nombre_unidad_de_medida }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+
+
+
+{% endblock content%}
